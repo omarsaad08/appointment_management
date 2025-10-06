@@ -1,0 +1,118 @@
+lib/
+├── main.dart
+├── app.dart
+│
+├── core/
+│   ├── config/
+│   │   ├── api_config.dart
+│   │   └── theme_config.dart
+│   ├── constants/
+│   │   ├── api_constants.dart
+│   │   └── app_constants.dart
+│   ├── utils/
+│   │   ├── validators.dart
+│   │   └── date_formatter.dart
+│   ├── network/
+│   │   └── api_client.dart
+│   └── widgets/
+│       ├── custom_button.dart
+│       ├── custom_text_field.dart
+│       └── loading_indicator.dart
+│
+├── features/
+│   ├── auth/
+│   │   ├── data/
+│   │   │   ├── models/
+│   │   │   │   └── user_model.dart
+│   │   │   └── repositories/
+│   │   │       └── auth_repository.dart
+│   │   ├── presentation/
+│   │   │   ├── screens/
+│   │   │   │   ├── login_screen.dart
+│   │   │   │   └── register_screen.dart
+│   │   │   ├── widgets/
+│   │   │   │   └── login_form.dart
+│   │   │   └── cubit/
+│   │   │       ├── auth_cubit.dart
+│   │   │       └── auth_state.dart
+│   │
+│   ├── appointments/
+│   │   ├── data/
+│   │   │   ├── models/
+│   │   │   │   └── appointment_model.dart
+│   │   │   └── repositories/
+│   │   │       └── appointment_repository.dart
+│   │   ├── presentation/
+│   │   │   ├── screens/
+│   │   │   │   ├── appointments_list_screen.dart
+│   │   │   │   ├── book_appointment_screen.dart
+│   │   │   │   └── appointment_details_screen.dart
+│   │   │   ├── widgets/
+│   │   │   │   ├── appointment_card.dart
+│   │   │   │   └── time_slot_picker.dart
+│   │   │   └── cubit/
+│   │   │       ├── appointments_cubit.dart
+│   │   │       └── appointments_state.dart
+│   │
+│   ├── doctors/
+│   │   ├── data/
+│   │   │   ├── models/
+│   │   │   │   └── doctor_model.dart
+│   │   │   └── repositories/
+│   │   │       └── doctor_repository.dart
+│   │   ├── presentation/
+│   │   │   ├── screens/
+│   │   │   │   ├── doctors_list_screen.dart
+│   │   │   │   ├── doctor_profile_screen.dart
+│   │   │   │   └── doctor_schedule_screen.dart
+│   │   │   ├── widgets/
+│   │   │   │   ├── doctor_card.dart
+│   │   │   │   └── specialization_filter.dart
+│   │   │   └── cubit/
+│   │   │       ├── doctors_cubit.dart
+│   │   │       └── doctors_state.dart
+│   │
+│   ├── medical_history/
+│   │   ├── data/
+│   │   │   ├── models/
+│   │   │   │   └── medical_record_model.dart
+│   │   │   └── repositories/
+│   │   │       └── medical_history_repository.dart
+│   │   ├── presentation/
+│   │   │   ├── screens/
+│   │   │   │   └── medical_history_screen.dart
+│   │   │   ├── widgets/
+│   │   │   │   └── medical_record_card.dart
+│   │   │   └── cubit/
+│   │   │       ├── medical_history_cubit.dart
+│   │   │       └── medical_history_state.dart
+│   │
+│   ├── admin/
+│   │   ├── data/
+│   │   │   └── repositories/
+│   │   │       └── admin_repository.dart
+│   │   ├── presentation/
+│   │   │   ├── screens/
+│   │   │   │   ├── admin_dashboard_screen.dart
+│   │   │   │   ├── manage_users_screen.dart
+│   │   │   │   └── system_logs_screen.dart
+│   │   │   └── cubit/
+│   │   │       ├── admin_cubit.dart
+│   │   │       └── admin_state.dart
+│   │
+│   └── profile/
+│       ├── data/
+│       │   ├── models/
+│       │   │   └── profile_model.dart
+│       │   └── repositories/
+│       │       └── profile_repository.dart
+│       ├── presentation/
+│       │   ├── screens/
+│       │   │   ├── profile_screen.dart
+│       │   │   └── edit_profile_screen.dart
+│       │   └── cubit/
+│       │       ├── profile_cubit.dart
+│       │       └── profile_state.dart
+│
+└── routes/
+    └── app_router.dart
