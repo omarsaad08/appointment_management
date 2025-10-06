@@ -1,8 +1,6 @@
 import 'package:appointment_management/appRouter.dart';
 import 'package:flutter/material.dart';
 
-bool _initialUriIsHandled = false;
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MainApp(appRouter: AppRouter()));
@@ -44,7 +42,3 @@ class _AppViewState extends State<AppView> {
     );
   }
 }
-
-/*
-<meta name="monetag" content="7374593d7148f836fb6f268dbfb43439">
-*/

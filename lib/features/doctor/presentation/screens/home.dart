@@ -62,8 +62,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
               _buildWeeklySchedule(context, isDesktop, isTablet),
               const SizedBox(height: 32),
 
-              // Recent Patients
-              _buildRecentPatients(context, isDesktop, isTablet),
               const SizedBox(height: 20),
             ],
           ),
@@ -216,6 +214,12 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                   ),
               ],
             ),
+          ),
+          const SizedBox(width: 8),
+          IconButton(
+            onPressed: () => Navigator.pushNamed(context, 'profile'),
+            icon: const Icon(Icons.person, color: Colors.white, size: 28),
+            tooltip: 'Profile',
           ),
         ],
       ),
@@ -497,18 +501,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
               },
             ),
             QuickActionButton(
-              icon: Icons.message,
-              title: 'Patient Messages',
-              subtitle: 'Chat with patients',
-              backgroundColor: const Color(0xFFF3E8FF),
-              iconColor: const Color(0xFF8B5CF6),
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Opening messages...')),
-                );
-              },
-            ),
-            QuickActionButton(
               icon: Icons.folder,
               title: 'Medical Records',
               subtitle: 'Patient history',
@@ -517,18 +509,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Opening medical records...')),
-                );
-              },
-            ),
-            QuickActionButton(
-              icon: Icons.analytics,
-              title: 'Earnings Report',
-              subtitle: 'View analytics',
-              backgroundColor: const Color(0xFFECFDF5),
-              iconColor: const Color(0xFF10B981),
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Opening earnings report...')),
                 );
               },
             ),
@@ -749,149 +729,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                 fontSize: 14,
                 color: const Color(0xFF6B7280),
               ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildRecentPatients(
-    BuildContext context,
-    bool isDesktop,
-    bool isTablet,
-  ) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Recent Patients',
-              style: GoogleFonts.inter(
-                fontSize: isDesktop
-                    ? 24
-                    : isTablet
-                    ? 22
-                    : 20,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF111827),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Viewing all patients...')),
-                );
-              },
-              child: Text(
-                'View All',
-                style: GoogleFonts.inter(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: const Color(0xFF3B82F6),
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 20),
-        Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Column(
-            children: [
-              _buildPatientItem(
-                'Sarah Johnson',
-                'Last visit: Dec 10',
-                'Regular checkup',
-              ),
-              const Divider(),
-              _buildPatientItem(
-                'Michael Rodriguez',
-                'Last visit: Dec 8',
-                'Chest pain evaluation',
-              ),
-              const Divider(),
-              _buildPatientItem(
-                'Lisa Wang',
-                'Last visit: Dec 5',
-                'Follow-up visit',
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildPatientItem(String name, String lastVisit, String reason) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      child: Row(
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: const Color(0xFF3B82F6).withOpacity(0.1),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: const Icon(Icons.person, color: Color(0xFF3B82F6), size: 20),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: GoogleFonts.inter(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xFF111827),
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  lastVisit,
-                  style: GoogleFonts.inter(
-                    fontSize: 14,
-                    color: const Color(0xFF6B7280),
-                  ),
-                ),
-                Text(
-                  reason,
-                  style: GoogleFonts.inter(
-                    fontSize: 12,
-                    color: const Color(0xFF9CA3AF),
-                    fontStyle: FontStyle.italic,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          IconButton(
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Opening patient records...')),
-              );
-            },
-            icon: const Icon(
-              Icons.arrow_forward_ios,
-              size: 16,
-              color: Color(0xFF6B7280),
             ),
           ),
         ],

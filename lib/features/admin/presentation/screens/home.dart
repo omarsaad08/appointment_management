@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../core/widgets/statistics_card.dart';
-import '../../../../core/widgets/overview_card.dart';
-import '../../../../core/widgets/activity_item.dart';
 import '../../../../core/widgets/quick_action_button.dart';
+import '../../../../core/widgets/activity_item.dart';
 
 class AdminHomeScreen extends StatefulWidget {
   const AdminHomeScreen({super.key});
@@ -42,76 +40,51 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
               _buildHeader(context, isDesktop, isTablet),
               const SizedBox(height: 32),
 
-              // System Overview Dashboard
-              _buildSystemOverview(context, isDesktop, isTablet),
-              const SizedBox(height: 32),
-
-              // Statistics Cards
-              _buildStatisticsCards(context, isDesktop, isTablet),
-              const SizedBox(height: 32),
-
               // Quick Actions
               _buildQuickActions(context, isDesktop, isTablet),
               const SizedBox(height: 32),
+
+              // Appointments Overview
+              _buildAppointmentsOverview(context, isDesktop, isTablet),
+              const SizedBox(height: 20),
 
               // Recent Activities and Pending Actions
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    flex: isDesktop ? 2 : 1,
-                    child: _buildRecentActivities(context, isDesktop, isTablet),
-                  ),
-                  if (isDesktop) const SizedBox(width: 24),
-                  Expanded(
-                    flex: isDesktop ? 1 : 1,
-                    child: _buildPendingActions(context, isDesktop, isTablet),
-                  ),
+                  if (isTablet)
+                    Expanded(flex: 3, child: _buildRecentActivities(context)),
+                  if (isTablet) const SizedBox(width: 20),
+                  if (isTablet)
+                    Expanded(flex: 2, child: _buildPendingActions(context)),
                 ],
               ),
-              const SizedBox(height: 32),
-
-              // Users Overview and Appointments
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    flex: isDesktop ? 1 : 1,
-                    child: _buildUsersOverview(context, isDesktop, isTablet),
-                  ),
-                  if (isDesktop) const SizedBox(width: 24),
-                  Expanded(
-                    flex: isDesktop ? 1 : 1,
-                    child: _buildAppointmentsOverview(
-                      context,
-                      isDesktop,
-                      isTablet,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 32),
-
-              // Doctors Performance and System Health
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    flex: isDesktop ? 1 : 1,
-                    child: _buildDoctorsPerformance(
-                      context,
-                      isDesktop,
-                      isTablet,
-                    ),
-                  ),
-                  if (isDesktop) const SizedBox(width: 24),
-                  Expanded(
-                    flex: isDesktop ? 1 : 1,
-                    child: _buildSystemHealth(context, isDesktop, isTablet),
-                  ),
-                ],
-              ),
+              if (!isTablet) ...[
+                _buildRecentActivities(context),
+                const SizedBox(height: 20),
+                _buildPendingActions(context),
+              ],
               const SizedBox(height: 20),
+
+              // Users Overview and Doctor Performance
+              if (isDesktop)
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(flex: 1, child: _buildUsersOverview(context)),
+                    const SizedBox(width: 20),
+                    Expanded(flex: 1, child: _buildDoctorsPerformance(context)),
+                  ],
+                )
+              else ...[
+                _buildUsersOverview(context),
+                const SizedBox(height: 20),
+                _buildDoctorsPerformance(context),
+              ],
+              const SizedBox(height: 20),
+
+              // System Health
+              _buildSystemHealth(context),
             ],
           ),
         ),
@@ -266,166 +239,14 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
               ],
             ),
           ),
+          const SizedBox(width: 8),
+          IconButton(
+            onPressed: () => Navigator.pushNamed(context, 'profile'),
+            icon: const Icon(Icons.person, color: Colors.white, size: 28),
+            tooltip: 'Profile',
+          ),
         ],
       ),
-    );
-  }
-
-  Widget _buildSystemOverview(
-    BuildContext context,
-    bool isDesktop,
-    bool isTablet,
-  ) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'System Overview',
-          style: GoogleFonts.inter(
-            fontSize: isDesktop
-                ? 24
-                : isTablet
-                ? 22
-                : 20,
-            fontWeight: FontWeight.bold,
-            color: const Color(0xFF111827),
-          ),
-        ),
-        const SizedBox(height: 20),
-        GridView.count(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          crossAxisCount: isDesktop
-              ? 4
-              : isTablet
-              ? 2
-              : 2,
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-          childAspectRatio: isDesktop ? 1.3 : 1.2,
-          children: [
-            OverviewCard(
-              title: 'Total Users',
-              value: '2,847',
-              subtitle: '1,234 Patients, 156 Doctors, 3 Admins',
-              icon: Icons.people,
-              backgroundColor: const Color(0xFFF0F9FF),
-              iconColor: const Color(0xFF3B82F6),
-              trend: '+12%',
-              isPositiveTrend: true,
-            ),
-            OverviewCard(
-              title: 'Total Appointments',
-              value: '8,432',
-              subtitle: 'Today: 156, This Week: 1,234',
-              icon: Icons.calendar_today,
-              backgroundColor: const Color(0xFFF0FDF4),
-              iconColor: const Color(0xFF059669),
-              trend: '+8%',
-              isPositiveTrend: true,
-            ),
-            OverviewCard(
-              title: 'Active Users',
-              value: '1,234',
-              subtitle: 'Online now',
-              icon: Icons.online_prediction,
-              backgroundColor: const Color(0xFFFEF3C7),
-              iconColor: const Color(0xFFF59E0B),
-              trend: '+5%',
-              isPositiveTrend: true,
-            ),
-            OverviewCard(
-              title: 'System Health',
-              value: '99.9%',
-              subtitle: 'Uptime status',
-              icon: Icons.health_and_safety,
-              backgroundColor: const Color(0xFFF3E8FF),
-              iconColor: const Color(0xFF8B5CF6),
-              trend: 'Stable',
-              isPositiveTrend: true,
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildStatisticsCards(
-    BuildContext context,
-    bool isDesktop,
-    bool isTablet,
-  ) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Platform Statistics',
-          style: GoogleFonts.inter(
-            fontSize: isDesktop
-                ? 24
-                : isTablet
-                ? 22
-                : 20,
-            fontWeight: FontWeight.bold,
-            color: const Color(0xFF111827),
-          ),
-        ),
-        const SizedBox(height: 20),
-        GridView.count(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          crossAxisCount: isDesktop
-              ? 4
-              : isTablet
-              ? 2
-              : 2,
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-          childAspectRatio: isDesktop ? 1.3 : 1.2,
-          children: [
-            StatisticsCard(
-              title: 'New Registrations',
-              value: '47',
-              subtitle: 'This week',
-              icon: Icons.person_add,
-              backgroundColor: const Color(0xFFF0F9FF),
-              iconColor: const Color(0xFF3B82F6),
-              change: '+23%',
-              isPositiveChange: true,
-            ),
-            StatisticsCard(
-              title: 'Appointments Status',
-              value: '89%',
-              subtitle: 'Completion rate',
-              icon: Icons.check_circle,
-              backgroundColor: const Color(0xFFF0FDF4),
-              iconColor: const Color(0xFF10B981),
-              change: '+5%',
-              isPositiveChange: true,
-            ),
-            StatisticsCard(
-              title: 'Revenue',
-              value: '\$24,567',
-              subtitle: 'This month',
-              icon: Icons.attach_money,
-              backgroundColor: const Color(0xFFFEF3C7),
-              iconColor: const Color(0xFFD97706),
-              change: '+18%',
-              isPositiveChange: true,
-            ),
-            StatisticsCard(
-              title: 'Activity Rate',
-              value: '76%',
-              subtitle: 'Daily active users',
-              icon: Icons.trending_up,
-              backgroundColor: const Color(0xFFF3E8FF),
-              iconColor: const Color(0xFF8B5CF6),
-              change: '+12%',
-              isPositiveChange: true,
-            ),
-          ],
-        ),
-      ],
     );
   }
 
@@ -463,18 +284,6 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           childAspectRatio: isDesktop ? 1.1 : 1.0,
           children: [
             QuickActionButton(
-              icon: Icons.people,
-              title: 'Manage Users',
-              subtitle: 'Add, edit, delete users',
-              backgroundColor: const Color(0xFFF0F9FF),
-              iconColor: const Color(0xFF3B82F6),
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Opening user management...')),
-                );
-              },
-            ),
-            QuickActionButton(
               icon: Icons.calendar_month,
               title: 'View Appointments',
               subtitle: 'All appointments',
@@ -483,30 +292,6 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Opening appointments...')),
-                );
-              },
-            ),
-            QuickActionButton(
-              icon: Icons.analytics,
-              title: 'Reports',
-              subtitle: 'Analytics & insights',
-              backgroundColor: const Color(0xFFFEF3C7),
-              iconColor: const Color(0xFFD97706),
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Opening reports...')),
-                );
-              },
-            ),
-            QuickActionButton(
-              icon: Icons.settings,
-              title: 'System Settings',
-              subtitle: 'Configure system',
-              backgroundColor: const Color(0xFFF3E8FF),
-              iconColor: const Color(0xFF8B5CF6),
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Opening settings...')),
                 );
               },
             ),
@@ -536,41 +321,16 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                 );
               },
             ),
-            QuickActionButton(
-              icon: Icons.bug_report,
-              title: 'System Logs',
-              subtitle: 'View system logs',
-              backgroundColor: const Color(0xFFF9FAFB),
-              iconColor: const Color(0xFF6B7280),
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Opening system logs...')),
-                );
-              },
-            ),
-            QuickActionButton(
-              icon: Icons.security,
-              title: 'Security',
-              subtitle: 'Security settings',
-              backgroundColor: const Color(0xFFFEF2F2),
-              iconColor: const Color(0xFFDC2626),
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Opening security settings...')),
-                );
-              },
-            ),
           ],
         ),
       ],
     );
   }
 
-  Widget _buildRecentActivities(
-    BuildContext context,
-    bool isDesktop,
-    bool isTablet,
-  ) {
+  Widget _buildRecentActivities(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth > 768;
+    final isDesktop = screenWidth > 1024;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -649,11 +409,10 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
     );
   }
 
-  Widget _buildPendingActions(
-    BuildContext context,
-    bool isDesktop,
-    bool isTablet,
-  ) {
+  Widget _buildPendingActions(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth > 768;
+    final isDesktop = screenWidth > 1024;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -752,11 +511,10 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
     );
   }
 
-  Widget _buildUsersOverview(
-    BuildContext context,
-    bool isDesktop,
-    bool isTablet,
-  ) {
+  Widget _buildUsersOverview(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth > 768;
+    final isDesktop = screenWidth > 1024;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -960,11 +718,10 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
     );
   }
 
-  Widget _buildDoctorsPerformance(
-    BuildContext context,
-    bool isDesktop,
-    bool isTablet,
-  ) {
+  Widget _buildDoctorsPerformance(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth > 768;
+    final isDesktop = screenWidth > 1024;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1078,11 +835,10 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
     );
   }
 
-  Widget _buildSystemHealth(
-    BuildContext context,
-    bool isDesktop,
-    bool isTablet,
-  ) {
+  Widget _buildSystemHealth(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth > 768;
+    final isDesktop = screenWidth > 1024;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

@@ -152,54 +152,11 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
               ],
             ),
           ),
-
-          // Notifications
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Stack(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Notifications feature coming soon!'),
-                      ),
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.notifications_outlined,
-                    color: Colors.white,
-                    size: 28,
-                  ),
-                ),
-                if (notificationCount > 0)
-                  Positioned(
-                    right: 8,
-                    top: 8,
-                    child: Container(
-                      width: 20,
-                      height: 20,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFEF4444),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Text(
-                          notificationCount.toString(),
-                          style: GoogleFonts.inter(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
-            ),
+          // Profile button
+          IconButton(
+            onPressed: () => Navigator.pushNamed(context, 'profile'),
+            icon: const Icon(Icons.person, color: Colors.white),
+            tooltip: 'Profile',
           ),
         ],
       ),
@@ -377,30 +334,6 @@ class _PatientHomeScreenState extends State<PatientHomeScreen> {
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Opening medical records...')),
-                );
-              },
-            ),
-            QuickActionButton(
-              icon: Icons.emergency,
-              title: 'Emergency',
-              subtitle: 'Contact emergency',
-              backgroundColor: const Color(0xFFFEE2E2),
-              iconColor: const Color(0xFFEF4444),
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Opening emergency contact...')),
-                );
-              },
-            ),
-            QuickActionButton(
-              icon: Icons.chat_bubble_outline,
-              title: 'Chat Doctor',
-              subtitle: 'Message your doctor',
-              backgroundColor: const Color(0xFFF3E8FF),
-              iconColor: const Color(0xFF8B5CF6),
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Opening chat with doctor...')),
                 );
               },
             ),
